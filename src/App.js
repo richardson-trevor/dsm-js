@@ -11,32 +11,41 @@ function getRGB(r, g, b) {
 }
 
 class AwesomeValue extends Component {
-  shouldComponentUpdate(nextProps) {
-    return this.props.value !== nextProps.value;
+
+  state = {
+    value: 0
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.value !== nextState.value;
+  }
+
+  clickHandler = () => {
+    console.log('clikcing!');
+    this.setState({value: this.state.value + 1});
+  };
 
   render() {
     return (
       <div
-        onClick={this.props.onClick}
+        onClick={() => {
+          this.props.onClick();
+          this.clickHandler();
+        }}
         style={{height: '200px', width: 'auto', background: getRGB(getRandomInt(), getRandomInt(), getRandomInt())}}
       >
-        {`${this.props.text}: ${this.props.value}`}
+        {this.state.value}
       </div>
     )
   }
 }
 
 class App extends Component {
-  state = {goodValue: 0, badValue: 0};
+  state = {value: 0}
 
-  goodValueHandler = () => {
-    this.setState({goodValue: this.state.goodValue + 1});
-  };
-
-  badValueHandler = () => {
-    this.setState({badValue: this.state.badValue + 1});
-  };
+  clickHandler = () => {
+    this.setState({value: this.state.value + 1});
+  }
 
   render() {
     return (
@@ -45,8 +54,12 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <AwesomeValue text="Good Value" value={this.state.goodValue} onClick={this.goodValueHandler} />
-        <AwesomeValue text="Bad Value" value={this.state.badValue} onClick={this.badValueHandler} />
+        <div style={{height: '100px', width: 'auto', background: getRGB(getRandomInt(), getRandomInt(), getRandomInt())}}>
+          {this.state.value}
+        </div>
+        <AwesomeValue onClick={this.clickHandler} />
+        <AwesomeValue onClick={this.clickHandler} />
+        <AwesomeValue onClick={this.clickHandler} />
       </div>
     );
   }
