@@ -5,6 +5,7 @@
 - Show Highlights
 
 ## Demo 2 - PureComponent
+- Handlers as arrow functions
 
 ## Demo 3 - Chrome dev tools helper
 

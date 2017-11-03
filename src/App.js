@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -14,42 +14,19 @@ function getRandomColor() {
   return getRGB(getRandomInt(), getRandomInt(), getRandomInt());
 }
 
-class AwesomeValue extends Component {
-
-  state = {
-    value: 0
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return this.state.value !== nextState.value;
-  }
-
-  clickHandler = () => {
-    console.log('clicking!');
-    this.setState({value: this.state.value + 1});
-  };
-
+class CoolDiv extends PureComponent {
+  shouldComponentUpdate
   render() {
-    return (
-      <div
-        onClick={() => {
-          this.props.onClick();
-          this.clickHandler();
-        }}
-        style={{height: '200px', width: 'auto', background: getRandomColor()}}
-      >
-        {this.state.value}
-      </div>
-    )
+    return (<div onClick={this.props.onClick} style={{width:'auto', height: '50px', backgroundColor: getRandomColor()}}>
+      {`Click count: ${this.props.clickCount}`}
+    </div>);
   }
 }
 
 class App extends Component {
-  state = {value: 0}
+  state = {totalClicks: 0}
 
-  clickHandler = () => {
-    this.setState({value: this.state.value + 1});
-  }
+  clickHandler = () => {this.setState({totalClicks: this.state.totalClicks + 1});}
 
   render() {
     return (
@@ -58,12 +35,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <div style={{height: '100px', width: 'auto', background: getRandomColor()}}>
-          {this.state.value}
-        </div>
-        <AwesomeValue onClick={this.clickHandler} />
-        <AwesomeValue onClick={this.clickHandler} />
-        <AwesomeValue onClick={this.clickHandler} />
+        <CoolDiv onClick={this.clickHandler} clickCount={this.state.totalClicks} />
       </div>
     );
   }
