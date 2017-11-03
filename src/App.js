@@ -10,6 +10,10 @@ function getRGB(r, g, b) {
   return "rgb(" + r + "," + g + "," + b + ")";
 }
 
+function getRandomColor() {
+  return getRGB(getRandomInt(), getRandomInt(), getRandomInt());
+}
+
 class AwesomeValue extends Component {
 
   state = {
@@ -21,7 +25,7 @@ class AwesomeValue extends Component {
   }
 
   clickHandler = () => {
-    console.log('clikcing!');
+    console.log('clicking!');
     this.setState({value: this.state.value + 1});
   };
 
@@ -32,7 +36,7 @@ class AwesomeValue extends Component {
           this.props.onClick();
           this.clickHandler();
         }}
-        style={{height: '200px', width: 'auto', background: getRGB(getRandomInt(), getRandomInt(), getRandomInt())}}
+        style={{height: '200px', width: 'auto', background: getRandomColor()}}
       >
         {this.state.value}
       </div>
@@ -54,7 +58,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <div style={{height: '100px', width: 'auto', background: getRGB(getRandomInt(), getRandomInt(), getRandomInt())}}>
+        <div style={{height: '100px', width: 'auto', background: getRandomColor()}}>
           {this.state.value}
         </div>
         <AwesomeValue onClick={this.clickHandler} />
