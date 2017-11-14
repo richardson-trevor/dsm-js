@@ -14,19 +14,35 @@ function getRandomColor() {
   return getRGB(getRandomInt(), getRandomInt(), getRandomInt());
 }
 
+function Nester({maxDepth, depth}) {
+  if (depth > maxDepth) {
+    return <div />;
+  } else {
+    return (
+      <div style={{padding: '10px', width: 'auto', height: 'auto', background: getRandomColor()}}>
+        <Nester maxDepth={maxDepth} depth={depth + 1} />
+      </div>
+    );
+  }
+}
+
 class CoolDiv extends PureComponent {
-  shouldComponentUpdate
   render() {
-    return (<div onClick={this.props.onClick} style={{width:'auto', height: '50px', backgroundColor: getRandomColor()}}>
-      {`Click count: ${this.props.clickCount}`}
-    </div>);
+    return (
+      <div onClick={this.props.onClick} style={{width: 'auto', height: '100px', background: getRandomColor()}}>
+      </div>
+    );
   }
 }
 
 class App extends Component {
   state = {totalClicks: 0}
 
-  clickHandler = () => {this.setState({totalClicks: this.state.totalClicks + 1});}
+  clickHandler = increment => {this.setState({totalClicks: this.state.totalClicks + increment});}
+
+  div1ClickHandler = () => this.clickHandler(1);
+  div2ClickHandler = () => this.clickHandler(2);
+  div3ClickHandler = () => this.clickHandler(3);
 
   render() {
     return (
@@ -35,7 +51,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <CoolDiv onClick={this.clickHandler} clickCount={this.state.totalClicks} />
+        <Nester maxDepth={100} depth={0} />
       </div>
     );
   }
