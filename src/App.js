@@ -14,35 +14,24 @@ function getRandomColor() {
   return getRGB(getRandomInt(), getRandomInt(), getRandomInt());
 }
 
-function Nester({maxDepth, depth}) {
-  if (depth > maxDepth) {
-    return <div />;
-  } else {
-    return (
-      <div style={{padding: '10px', width: 'auto', height: 'auto', background: getRandomColor()}}>
-        <Nester maxDepth={maxDepth} depth={depth + 1} />
-      </div>
-    );
+class CoolDiv extends Component {
+  shouldComponentUpdate(nextProps) {
+    return this.props.value !== nextProps.value;
   }
-}
 
-class CoolDiv extends PureComponent {
-  render() {
-    return (
-      <div onClick={this.props.onClick} style={{width: 'auto', height: '100px', background: getRandomColor()}}>
-      </div>
-    );
-  }
+  render() { return (
+    <div style={{width: 'auto', height: '100px', background: getRandomColor()}}>
+      {this.props.value}
+    </div>
+  )}
 }
 
 class App extends Component {
-  state = {totalClicks: 0}
+  state = {clicks: 0, someRandomValue: 0}
 
-  clickHandler = increment => {this.setState({totalClicks: this.state.totalClicks + increment});}
+  clickHandler= increment => { this.setState({clicks: this.state.clicks + increment}) }
+  clickHandler2= increment => { this.setState({someRandomValue: this.state.someRandomValue + 1}) }
 
-  div1ClickHandler = () => this.clickHandler(1);
-  div2ClickHandler = () => this.clickHandler(2);
-  div3ClickHandler = () => this.clickHandler(3);
 
   render() {
     return (
@@ -51,7 +40,9 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <Nester maxDepth={100} depth={0} />
+        <div style={{width: 'auto', height: '20px', background: 'grey'}} onClick={() => this.clickHandler(1)} />
+        <div style={{width: 'auto', height: '20px', background: 'red'}} onClick={() => this.clickHandler2(1)} />
+        <CoolDiv onClick={() => undefined} value={this.state.clicks} />
       </div>
     );
   }
